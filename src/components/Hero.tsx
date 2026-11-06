@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { Briefcase, Compass, User, Send } from "lucide-react";
+import { Briefcase, Compass, User, Send, ZoomIn, ZoomOut, RotateCcw } from "lucide-react";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
@@ -137,6 +137,7 @@ export default function Hero() {
 
   // Modal State
   const [activeEra, setActiveEra] = useState<number | null>(null);
+  const [bookZoom, setBookZoom] = useState<number>(1.0);
 
   // Prevent background scrolling when modal is open
   useEffect(() => {
@@ -399,7 +400,7 @@ export default function Hero() {
             trigger: container,
             start: "top top",
             end: "bottom bottom",
-            scrub: 0.65, // Luxurious inertia damping
+            scrub: 0.25, // Responsive, fast scrub
             onUpdate: (self) => {
               const rawProgress = self.progress;
               const progress = Math.min(1, rawProgress / 0.7);
@@ -1180,8 +1181,8 @@ export default function Hero() {
   const whiteScreenOpacity = Math.max(0, Math.min(1, (scrollProgress - 0.32) / 0.05));
 
   return (
-    // 3000vh height ensures calm, luxurious scroll pacing for the entire 18-phase choreography + book stage
-    <section ref={containerRef} className="relative w-full h-[3000vh] bg-black">
+    // Responsive height: fast & effortless on mobile, deep & cinematic on desktop
+    <section ref={containerRef} className="relative w-full h-[950vh] sm:h-[1400vh] lg:h-[2000vh] xl:h-[2400vh] bg-black">
       {/* Sticky Fullscreen Canvas Stage */}
       <div className="sticky top-0 h-screen w-full overflow-hidden flex items-center justify-center select-none">
         <canvas
@@ -1554,21 +1555,62 @@ export default function Hero() {
           >
             <Send className="w-5 h-5 sm:w-6 sm:h-6 md:w-8 md:h-8 lg:w-9 lg:h-9 text-sky-500 stroke-[2.3]" />
           </div>
-          <div 
-            className="relative flex items-end justify-center w-full max-w-[1360px] mx-auto px-4"
-            style={{
-              transformStyle: "preserve-3d",
-              transform: "rotateX(45deg) rotateZ(-20deg) scale(1.15)",
-              marginTop: "8vh" // visually balance the rotation
-            }}
-          >
-             {/* Left Area (Where the cover lands when opened) */}
-             <div className="w-1/2 max-w-[680px] h-[500px] sm:h-[650px] relative pointer-events-none" style={{ transformStyle: 'preserve-3d' }} />
-             
-             {/* Right Area (The Book Block: Back Cover) */}
-             <div 
-               ref={backCoverRef}
-               className="w-1/2 max-w-[680px] h-[500px] sm:h-[650px] bg-slate-100 rounded-r-3xl relative pointer-events-none origin-left will-change-transform" 
+
+          {/* Interactive 3D Book Zoom Controls */}
+          <div className="absolute bottom-6 right-6 z-50 flex items-center gap-1.5 bg-white/95 backdrop-blur-md px-3 py-1.5 rounded-full border border-slate-200/90 shadow-[0_8px_25px_rgba(15,23,42,0.12)] pointer-events-auto select-none">
+            <button
+              onClick={() => setBookZoom((z) => Math.max(0.6, Math.round((z - 0.15) * 100) / 100))}
+              className="w-7 h-7 rounded-full bg-slate-100 hover:bg-slate-200 active:scale-95 text-slate-700 flex items-center justify-center transition-all cursor-pointer"
+              title="Zoom Out"
+              aria-label="Zoom Out"
+            >
+              <ZoomOut className="w-3.5 h-3.5" />
+            </button>
+            <button
+              onClick={() => setBookZoom(1.0)}
+              className="text-[11px] font-mono font-bold text-slate-700 px-1.5 hover:text-sky-600 transition-colors cursor-pointer"
+              title="Reset Zoom"
+              aria-label="Reset Zoom"
+            >
+              {Math.round(bookZoom * 100)}%
+            </button>
+            <button
+              onClick={() => setBookZoom((z) => Math.min(1.4, Math.round((z + 0.15) * 100) / 100))}
+              className="w-7 h-7 rounded-full bg-slate-100 hover:bg-slate-200 active:scale-95 text-slate-700 flex items-center justify-center transition-all cursor-pointer"
+              title="Zoom In"
+              aria-label="Zoom In"
+            >
+              <ZoomIn className="w-3.5 h-3.5" />
+            </button>
+            {bookZoom !== 1.0 && (
+              <button
+                onClick={() => setBookZoom(1.0)}
+                className="w-6 h-6 rounded-full hover:bg-slate-100 active:scale-95 text-slate-400 hover:text-slate-600 flex items-center justify-center transition-colors ml-0.5 cursor-pointer"
+                title="Reset"
+                aria-label="Reset"
+              >
+                <RotateCcw className="w-3 h-3" />
+              </button>
+            )}
+          </div>
+
+          {/* Responsive Scaling Container for Mobile & Large Displays */}
+          <div className="relative w-full flex items-center justify-center scale-[0.65] xs:scale-[0.75] sm:scale-[0.88] md:scale-[0.98] lg:scale-[1.1] transition-transform duration-300 origin-center">
+            <div 
+              className="relative flex items-end justify-center w-full max-w-[1360px] mx-auto px-2 sm:px-4"
+              style={{
+                transformStyle: "preserve-3d",
+                transform: `rotateX(40deg) rotateZ(-16deg) scale(${bookZoom})`,
+                marginTop: "4vh" // visually balance the rotation
+              }}
+            >
+               {/* Left Area (Where the cover lands when opened) */}
+               <div className="w-1/2 max-w-[680px] h-[520px] sm:h-[660px] md:h-[700px] relative pointer-events-none" style={{ transformStyle: 'preserve-3d' }} />
+               
+               {/* Right Area (The Book Block: Back Cover) */}
+               <div 
+                 ref={backCoverRef}
+                 className="w-1/2 max-w-[680px] h-[520px] sm:h-[660px] md:h-[700px] bg-slate-100 rounded-r-3xl relative pointer-events-none origin-left will-change-transform" 
                style={{ 
                  transformStyle: 'preserve-3d',
                  boxShadow: '16px 20px 30px -4px rgba(15, 23, 42, 0.12), 4px 8px 12px -2px rgba(15, 23, 42, 0.06)'
@@ -1699,34 +1741,34 @@ export default function Hero() {
                   >
                     {/* Front of Page (Right Side of Spread) */}
                     <div 
-                      className="absolute inset-0 bg-white border border-slate-200 shadow-[2px_2px_8px_rgba(0,0,0,0.05)] rounded-tr-2xl flex flex-col p-8 sm:p-12 overflow-hidden pointer-events-auto"
+                      className="absolute inset-0 bg-white border border-slate-200 shadow-[2px_2px_8px_rgba(0,0,0,0.05)] rounded-tr-2xl flex flex-col p-4 xs:p-6 sm:p-10 md:p-12 overflow-hidden pointer-events-auto"
                       style={{ backfaceVisibility: "hidden", transform: 'rotateY(0deg)' }}
                     >
                       {/* Ribbon Page Number (Right side page) */}
-                      <div className="absolute top-0 right-8 w-12 h-16 bg-[#0284c7] shadow-lg flex justify-center pt-3 z-20" style={{ clipPath: 'polygon(0 0, 100% 0, 100% 100%, 50% 80%, 0 100%)' }}>
-                        <span className="text-white font-black text-xl select-none leading-none">
+                      <div className="absolute top-0 right-3 sm:right-8 w-8 sm:w-12 h-11 sm:h-16 bg-[#0284c7] shadow-lg flex justify-center pt-2 sm:pt-3 z-20" style={{ clipPath: 'polygon(0 0, 100% 0, 100% 100%, 50% 80%, 0 100%)' }}>
+                        <span className="text-white font-black text-sm sm:text-xl select-none leading-none">
                           {i * 2 - 1}
                         </span>
                       </div>
 
-                      <div className="flex flex-col h-full text-slate-800 relative z-10 pt-4">
-                        <span className="text-sky-500 font-bold tracking-widest text-xs sm:text-sm mb-2 sm:mb-3 uppercase">{currentEraText.era} • {currentEraText.years}</span>
-                        <h3 className="font-heading font-black text-3xl sm:text-4xl md:text-5xl mb-3 sm:mb-5 text-slate-900 leading-tight">
+                      <div className="flex flex-col h-full text-slate-800 relative z-10 pt-2 sm:pt-4">
+                        <span className="text-sky-500 font-bold tracking-widest text-[11px] sm:text-sm mb-1.5 sm:mb-3 uppercase">{currentEraText.era} • {currentEraText.years}</span>
+                        <h3 className="font-heading font-black text-lg xs:text-xl sm:text-3xl md:text-4xl lg:text-5xl mb-2 sm:mb-4 text-slate-900 leading-tight pr-6 sm:pr-8">
                           {currentEraText.title}
                         </h3>
-                        <div className="inline-block px-4 py-1.5 bg-slate-100 rounded-full text-xs sm:text-sm font-semibold text-slate-500 mb-6 sm:mb-8 w-max border border-slate-200">
+                        <div className="inline-block px-3 py-1 sm:px-4 sm:py-1.5 bg-slate-100 rounded-full text-[11px] sm:text-sm font-semibold text-slate-500 mb-3 sm:mb-6 w-max border border-slate-200">
                           {currentEraText.age}
                         </div>
-                        <p className="font-medium text-slate-600 leading-relaxed text-sm sm:text-base md:text-lg">
+                        <p className="font-medium text-slate-600 leading-relaxed text-xs sm:text-base md:text-lg line-clamp-4 sm:line-clamp-none">
                           {currentEraText.desc}
                         </p>
                         
                         {/* Click to see details */}
                         <button 
                           onClick={() => setActiveEra(i - 1)}
-                          className="mt-auto self-start flex items-center gap-2 text-sky-500 font-bold uppercase tracking-widest text-xs hover:text-sky-600 transition-colors pointer-events-auto"
+                          className="mt-auto self-start flex items-center gap-1.5 sm:gap-2 text-sky-500 font-bold uppercase tracking-widest text-[11px] sm:text-xs hover:text-sky-600 transition-colors pointer-events-auto pt-2"
                         >
-                           Click to see details <span className="text-lg leading-none">→</span>
+                           Click to see details <span className="text-base sm:text-lg leading-none">→</span>
                         </button>
                       </div>
                     </div>
@@ -1738,8 +1780,8 @@ export default function Hero() {
                     >
                         {/* Ribbon Page Number (Left side page) */}
                         {i < 4 && (
-                          <div className="absolute top-0 left-8 w-12 h-16 bg-[#0284c7] shadow-lg flex justify-center pt-3 z-20" style={{ clipPath: 'polygon(0 0, 100% 0, 100% 100%, 50% 80%, 0 100%)' }}>
-                            <span className="text-white font-black text-xl select-none leading-none">
+                          <div className="absolute top-0 left-3 sm:left-8 w-8 sm:w-12 h-11 sm:h-16 bg-[#0284c7] shadow-lg flex justify-center pt-2 sm:pt-3 z-20" style={{ clipPath: 'polygon(0 0, 100% 0, 100% 100%, 50% 80%, 0 100%)' }}>
+                            <span className="text-white font-black text-sm sm:text-xl select-none leading-none">
                               {i * 2}
                             </span>
                           </div>
@@ -1763,6 +1805,7 @@ export default function Hero() {
                })}
              </div>
           </div>
+         </div>
         </div>
 
         {/* Minimal Initial Scroll Mouse Pill (Fades out completely on first scroll) */}

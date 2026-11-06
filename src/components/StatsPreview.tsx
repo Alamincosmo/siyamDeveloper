@@ -28,12 +28,12 @@ export default function StatsPreview() {
   ];
 
   return (
-    <section id="demo" className="py-24 md:py-36 bg-[#ECF0F3] relative overflow-hidden">
+    <section id="demo" className="py-24 md:py-36 bg-[#F8FAFC] relative overflow-hidden">
       <div className="max-w-6xl mx-auto px-6 relative z-10">
         {/* Top Split Grid */}
         <div className="grid md:grid-cols-2 gap-8 mb-16">
           {/* Left Card: 20+ Projects Shipped with Marquee Ribbons */}
-          <div className="rounded-3xl p-8 bg-white shadow-[8px_8px_24px_#D1D9E6,-8px_-8px_24px_#FFFFFF] border border-white/80 flex flex-col justify-between overflow-hidden">
+          <div className="rounded-3xl p-8 sm:p-10 bg-white border border-slate-200/70 flex flex-col justify-between overflow-hidden">
             <div className="mb-8">
               <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-blue-600 mb-2">
                 <Globe className="w-4 h-4" />
@@ -53,14 +53,14 @@ export default function StatsPreview() {
               <div className="flex gap-3 overflow-hidden select-none">
                 <div className="flex gap-3 shrink-0 animate-marquee">
                   {marquee1.map((src, i) => (
-                    <div key={i} className="w-28 h-18 sm:w-36 sm:h-22 relative rounded-xl overflow-hidden shadow-sm shrink-0 border border-slate-200">
+                    <div key={i} className="w-28 h-18 sm:w-36 sm:h-22 relative rounded-xl overflow-hidden shrink-0 border border-slate-200/80 bg-slate-100">
                       <Image src={src} alt="project thumbnail" fill className="object-cover" />
                     </div>
                   ))}
                 </div>
                 <div className="flex gap-3 shrink-0 animate-marquee" aria-hidden="true">
                   {marquee1.map((src, i) => (
-                    <div key={`dup-${i}`} className="w-28 h-18 sm:w-36 sm:h-22 relative rounded-xl overflow-hidden shadow-sm shrink-0 border border-slate-200">
+                    <div key={`dup-${i}`} className="w-28 h-18 sm:w-36 sm:h-22 relative rounded-xl overflow-hidden shrink-0 border border-slate-200/80 bg-slate-100">
                       <Image src={src} alt="project thumbnail" fill className="object-cover" />
                     </div>
                   ))}
@@ -71,14 +71,14 @@ export default function StatsPreview() {
               <div className="flex gap-3 overflow-hidden select-none">
                 <div className="flex gap-3 shrink-0 animate-marquee-reverse">
                   {marquee2.map((src, i) => (
-                    <div key={i} className="w-28 h-18 sm:w-36 sm:h-22 relative rounded-xl overflow-hidden shadow-sm shrink-0 border border-slate-200">
+                    <div key={i} className="w-28 h-18 sm:w-36 sm:h-22 relative rounded-xl overflow-hidden shrink-0 border border-slate-200/80 bg-slate-100">
                       <Image src={src} alt="project thumbnail" fill className="object-cover" />
                     </div>
                   ))}
                 </div>
                 <div className="flex gap-3 shrink-0 animate-marquee-reverse" aria-hidden="true">
                   {marquee2.map((src, i) => (
-                    <div key={`dup-${i}`} className="w-28 h-18 sm:w-36 sm:h-22 relative rounded-xl overflow-hidden shadow-sm shrink-0 border border-slate-200">
+                    <div key={`dup-${i}`} className="w-28 h-18 sm:w-36 sm:h-22 relative rounded-xl overflow-hidden shrink-0 border border-slate-200/80 bg-slate-100">
                       <Image src={src} alt="project thumbnail" fill className="object-cover" />
                     </div>
                   ))}
@@ -88,36 +88,36 @@ export default function StatsPreview() {
           </div>
 
           {/* Right Card: Book 30-min intro call */}
-          <div className="rounded-3xl p-8 sm:p-10 bg-gradient-to-br from-blue-600 via-indigo-600 to-slate-900 text-white shadow-xl shadow-blue-500/20 flex flex-col justify-between">
+          <div className="rounded-3xl p-8 sm:p-10 bg-gradient-to-br from-blue-50/80 via-slate-50/70 to-indigo-50/50 border border-blue-100/80 text-slate-900 flex flex-col justify-between">
             <div>
-              <div className="size-11 rounded-2xl bg-white/10 backdrop-blur-md flex items-center justify-center mb-6">
-                <Calendar className="w-5 h-5 text-white" />
+              <div className="size-11 rounded-2xl bg-blue-100/80 text-blue-600 flex items-center justify-center mb-6 border border-blue-200/60">
+                <Calendar className="w-5 h-5 text-blue-600" />
               </div>
-              <h3 className="text-2xl sm:text-3xl font-heading font-extrabold tracking-tight mb-3">
+              <h3 className="text-2xl sm:text-3xl font-heading font-extrabold tracking-tight mb-3 text-slate-900">
                 Book a 30-Min Intro Call
               </h3>
-              <p className="text-blue-100 text-sm sm:text-base font-medium mb-6">
+              <p className="text-slate-600 text-sm sm:text-base font-medium mb-6">
                 What we achieve in our 30-minute discovery session:
               </p>
 
               <div className="space-y-3.5 mb-8">
                 <div className="flex items-center gap-3">
-                  <div className="size-5 rounded-full bg-blue-400/20 flex items-center justify-center shrink-0">
-                    <Check className="w-3.5 h-3.5 text-blue-300 stroke-[3]" />
+                  <div className="size-5 rounded-full bg-blue-100 flex items-center justify-center shrink-0">
+                    <Check className="w-3.5 h-3.5 text-blue-600 stroke-[2.5]" />
                   </div>
-                  <span className="text-sm font-semibold text-white">Short introduction & mutual alignment</span>
+                  <span className="text-sm font-semibold text-slate-700">Short introduction & mutual alignment</span>
                 </div>
                 <div className="flex items-center gap-3">
-                  <div className="size-5 rounded-full bg-blue-400/20 flex items-center justify-center shrink-0">
-                    <Check className="w-3.5 h-3.5 text-blue-300 stroke-[3]" />
+                  <div className="size-5 rounded-full bg-blue-100 flex items-center justify-center shrink-0">
+                    <Check className="w-3.5 h-3.5 text-blue-600 stroke-[2.5]" />
                   </div>
-                  <span className="text-sm font-semibold text-white">Dig into your project architecture & goals</span>
+                  <span className="text-sm font-semibold text-slate-700">Dig into your project architecture & goals</span>
                 </div>
                 <div className="flex items-center gap-3">
-                  <div className="size-5 rounded-full bg-blue-400/20 flex items-center justify-center shrink-0">
-                    <Check className="w-3.5 h-3.5 text-blue-300 stroke-[3]" />
+                  <div className="size-5 rounded-full bg-blue-100 flex items-center justify-center shrink-0">
+                    <Check className="w-3.5 h-3.5 text-blue-600 stroke-[2.5]" />
                   </div>
-                  <span className="text-sm font-semibold text-white">Clear, actionable technical delivery plan</span>
+                  <span className="text-sm font-semibold text-slate-700">Clear, actionable technical delivery plan</span>
                 </div>
               </div>
             </div>
@@ -125,9 +125,9 @@ export default function StatsPreview() {
             <div>
               <a
                 href="#contact"
-                className="w-full inline-flex items-center justify-center gap-2 py-3.5 px-6 rounded-2xl bg-white text-slate-900 font-bold hover:bg-blue-50 transition-all shadow-md active:scale-95 text-sm"
+                className="w-full inline-flex items-center justify-center gap-2 py-3.5 px-6 rounded-2xl bg-blue-600 hover:bg-blue-700 text-white font-bold transition-all active:scale-95 text-sm"
               >
-                <Calendar className="w-4 h-4 text-blue-600" />
+                <Calendar className="w-4 h-4 text-white" />
                 <span>Schedule a Call Now</span>
               </a>
             </div>
@@ -135,7 +135,7 @@ export default function StatsPreview() {
         </div>
 
         {/* Bottom Section: Currently Working On */}
-        <div className="rounded-3xl p-8 sm:p-10 bg-white shadow-[8px_8px_24px_#D1D9E6,-8px_-8px_24px_#FFFFFF] border border-white/80">
+        <div className="rounded-3xl p-8 sm:p-10 bg-white border border-slate-200/70">
           <div className="flex items-center gap-3 mb-6">
             <Sparkles className="w-5 h-5 text-blue-600" />
             <h4 className="text-xl sm:text-2xl font-heading font-extrabold text-slate-900">

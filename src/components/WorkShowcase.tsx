@@ -197,13 +197,13 @@ export default function WorkShowcase() {
         });
       }
 
-      // Master Scrubbed Timeline (Calibrated across 1600vh for ultra-deliberate, slow reading pacing)
+      // Master Scrubbed Timeline (Calibrated across 1200vh for snappier, responsive scroll pacing)
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: scrollTrackRef.current,
           start: "top top",
           end: "bottom bottom",
-          scrub: 0.6, // Fast, snappy, responsive scrolling (reduced lag)
+          scrub: 0.2, // Snappy, responsive fast scrolling
           invalidateOnRefresh: true,
         },
       });
@@ -679,9 +679,9 @@ export default function WorkShowcase() {
     <section
       id="work"
       ref={scrollTrackRef}
-      className="relative w-full h-[1600vh] bg-[#F8FAFC] text-slate-900 select-none"
+      className="relative w-full h-[380vh] sm:h-[550vh] lg:h-[700vh] xl:h-[750vh] bg-[#F8FAFC] text-slate-900 select-none"
     >
-      {/* Sticky Fullscreen Stage (PHYSICALLY LOCKED TO VIEWPORT FOR 1600vh) */}
+      {/* Sticky Fullscreen Stage (PHYSICALLY LOCKED TO VIEWPORT FOR 1200vh) */}
       <div
         ref={stageRef}
         className="sticky top-0 w-full h-screen overflow-hidden flex items-center justify-center select-none"
@@ -811,11 +811,11 @@ export default function WorkShowcase() {
               {/* ══════════════════════════════════════════════════════════ */}
               <div
                 ref={screen1Ref}
-                className="absolute inset-0 flex items-center justify-center pointer-events-none select-none whitespace-nowrap will-change-transform opacity-0"
+                className="absolute inset-0 flex items-center justify-center pointer-events-none select-none will-change-transform opacity-0 px-4 text-center"
               >
                 <div
-                  className="font-black tracking-tighter inline-flex items-baseline gap-4 sm:gap-6"
-                  style={{ fontSize: "clamp(3.5rem, 8vw, 7.8rem)" }}
+                  className="font-black tracking-tighter inline-flex items-baseline justify-center flex-wrap gap-2 xs:gap-3 sm:gap-6 max-w-full"
+                  style={{ fontSize: "clamp(2rem, 8vw, 7.5rem)" }}
                 >
                   <span className="text-slate-950 inline-block drop-shadow-sm">
                     {"Work".split("").map((c, i) => (
@@ -845,22 +845,22 @@ export default function WorkShowcase() {
               {/* ══════════════════════════════════════════════════════════ */}
               <div
                 ref={screen2Ref}
-                className="absolute inset-0 flex items-center justify-center pointer-events-none select-none whitespace-nowrap will-change-transform"
+                className="absolute inset-0 flex items-center justify-center pointer-events-none select-none will-change-transform px-4"
               >
-                <div className="inline-flex items-center gap-3 sm:gap-6 pointer-events-auto whitespace-nowrap">
+                <div className="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-6 pointer-events-auto max-w-full">
                   <div
-                    className="inline-flex items-baseline gap-3 sm:gap-4 font-black tracking-tight whitespace-nowrap"
-                    style={{ fontSize: "clamp(3.4rem, 7.5vw, 7.2rem)" }}
+                    className="inline-flex items-baseline justify-center gap-2 sm:gap-4 font-black tracking-tight"
+                    style={{ fontSize: "clamp(2rem, 7.5vw, 7.2rem)" }}
                   >
                     <span
                       ref={wordPureRef}
-                      className="inline-block text-slate-900 drop-shadow-sm whitespace-nowrap will-change-transform"
+                      className="inline-block text-slate-900 drop-shadow-sm will-change-transform"
                     >
                       Pure
                     </span>
                     <span
                       ref={wordImpactRef}
-                      className="inline-block text-transparent bg-clip-text whitespace-nowrap will-change-transform drop-shadow-[0_4px_25px_rgba(56,189,248,0.25)]"
+                      className="inline-block text-transparent bg-clip-text will-change-transform drop-shadow-[0_4px_25px_rgba(56,189,248,0.25)]"
                       style={{
                         backgroundImage:
                           "linear-gradient(135deg, #0284C7 0%, #38BDF8 50%, #06B6D4 100%)",
@@ -873,10 +873,10 @@ export default function WorkShowcase() {
 
                   <div
                     ref={badgeShowcaseRef}
-                    className="inline-flex items-center gap-1.5 px-3 sm:px-4 py-1.5 rounded-full bg-white/90 border border-sky-200/80 shadow-[0_4px_15px_rgba(186,230,253,0.35)] backdrop-blur-md text-xs sm:text-sm font-mono font-semibold text-sky-700 whitespace-nowrap shrink-0 will-change-transform"
+                    className="inline-flex items-center gap-1.5 px-3 sm:px-4 py-1.5 rounded-full bg-white/90 border border-sky-200/80 shadow-[0_4px_15px_rgba(186,230,253,0.35)] backdrop-blur-md text-[11px] sm:text-sm font-mono font-semibold text-sky-700 whitespace-nowrap shrink-0 will-change-transform"
                   >
                     <Sparkles
-                      className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-sky-500 animate-spin"
+                      className="w-3 h-3 sm:w-4 sm:h-4 text-sky-500 animate-spin"
                       style={{ animationDuration: "8s" }}
                     />
                     <span>Portfolio Showcase</span>
@@ -1027,8 +1027,8 @@ export default function WorkShowcase() {
                       ref={(el) => {
                         cardWrappersRef.current[idx] = el;
                       }}
-                      // Refined Card Dimensions (290px/330px/350px × 435px/465px)
-                      className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[290px] sm:w-[330px] md:w-[350px] h-[435px] sm:h-[465px] will-change-transform pointer-events-auto"
+                      // Refined Card Dimensions (275px/290px/330px/350px × 415px/465px)
+                      className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[275px] xs:w-[290px] sm:w-[330px] md:w-[350px] h-[415px] sm:h-[465px] will-change-transform pointer-events-auto"
                       style={{
                         transformStyle: "preserve-3d",
                         WebkitFontSmoothing: "antialiased",

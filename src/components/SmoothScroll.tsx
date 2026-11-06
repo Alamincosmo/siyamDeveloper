@@ -10,13 +10,14 @@ export default function SmoothScroll({ children }: { children: React.ReactNode }
     gsap.registerPlugin(ScrollTrigger);
 
     const lenis = new Lenis({
-      duration: 1.2,
+      duration: 0.85, // Snappier inertia damping
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       orientation: "vertical",
       gestureOrientation: "vertical",
       smoothWheel: true,
-      wheelMultiplier: 1,
-      touchMultiplier: 2,
+      wheelMultiplier: 1.15,
+      touchMultiplier: 2.6, // Fast & effortless mobile touch scrolling
+      infinite: false,
     });
 
     // Synchronize Lenis scroll position with GSAP ScrollTrigger
