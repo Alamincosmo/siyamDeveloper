@@ -203,7 +203,7 @@ export default function WorkShowcase() {
           trigger: scrollTrackRef.current,
           start: "top top",
           end: "bottom bottom",
-          scrub: 1.4, // Silky smooth inertial damping
+          scrub: 0.6, // Fast, snappy, responsive scrolling (reduced lag)
           invalidateOnRefresh: true,
         },
       });
@@ -212,59 +212,55 @@ export default function WorkShowcase() {
       // 0. LIVING BACKGROUND: Water Waves continuous glide across scroll
       // ─────────────────────────────────────────────────────────────
       if (wave1Ref.current) {
-        tl.to(wave1Ref.current, { x: "-220px", duration: 1.0, ease: "none" }, 0);
+        tl.to(wave1Ref.current, { x: "-120px", duration: 1.0, ease: "none" }, 0);
       }
       if (wave2Ref.current) {
-        tl.to(wave2Ref.current, { x: "260px", duration: 1.0, ease: "none" }, 0);
+        tl.to(wave2Ref.current, { x: "140px", duration: 1.0, ease: "none" }, 0);
       }
       if (wave3Ref.current) {
-        tl.to(wave3Ref.current, { x: "-150px", duration: 1.0, ease: "none" }, 0);
+        tl.to(wave3Ref.current, { x: "-80px", duration: 1.0, ease: "none" }, 0);
       }
 
       // Parallax shapes interactive movement during Screen 1
       if (shapeRingRef.current) {
         tl.fromTo(
           shapeRingRef.current,
-          { scale: 0.85, opacity: 0 },
-          { scale: 1.0, opacity: 1, duration: 0.10, ease: "power2.out" },
+          { opacity: 0 },
+          { opacity: 1, duration: 0.08, ease: "power2.out" },
           0
         );
       }
       if (shapePillRef.current) {
         tl.fromTo(
           shapePillRef.current,
-          { x: -70, opacity: 0 },
-          { x: 0, opacity: 1, duration: 0.10, ease: "power2.out" },
+          { opacity: 0 },
+          { opacity: 1, duration: 0.08, ease: "power2.out" },
           0
         );
       }
       if (shapeDiamondRef.current) {
         tl.fromTo(
           shapeDiamondRef.current,
-          { scale: 0.7, opacity: 0 },
-          { scale: 1.0, opacity: 1, duration: 0.10, ease: "power2.out" },
+          { opacity: 0 },
+          { opacity: 1, duration: 0.08, ease: "power2.out" },
           0
         );
       }
 
       // ─────────────────────────────────────────────────────────────
-      // 1. SCREEN 1: "Work Showcase" (Kinetic Typewriter Reveal)
-      //    (0.00 -> 0.10) + Generous Reading Hold (0.10 -> 0.20)
+      // 1. SCREEN 1: "Work Showcase" (Snappy Reveal)
+      //    (0.00 -> 0.10) + Hold (0.10 -> 0.20)
       // ─────────────────────────────────────────────────────────────
       tl.fromTo(
         screen1Ref.current,
         {
-          x: "16vw",
-          scale: 1.4,
-          filter: "blur(14px)",
+          x: "8vw",
           opacity: 0,
         },
         {
           x: "0vw",
-          scale: 1.0,
-          filter: "blur(0px)",
           opacity: 1,
-          duration: 0.10,
+          duration: 0.08,
           ease: "power2.out",
         },
         0
@@ -273,12 +269,12 @@ export default function WorkShowcase() {
       if (screen1Chars && screen1Chars.length > 0) {
         tl.fromTo(
           screen1Chars,
-          { y: 50, opacity: 0 },
+          { y: 24, opacity: 0 },
           {
             y: 0,
             opacity: 1,
-            stagger: 0.010,
-            duration: 0.10,
+            stagger: 0.005,
+            duration: 0.08,
             ease: "power2.out",
           },
           0.01
@@ -286,17 +282,16 @@ export default function WorkShowcase() {
       }
 
       // ─────────────────────────────────────────────────────────────
-      // 2. SCREEN 1 DISSOLVE & SLIDE LEFT (After comfortable hold 0.10 -> 0.20)
+      // 2. SCREEN 1 DISSOLVE & SLIDE LEFT (After hold 0.10 -> 0.20)
       //    (0.20 -> 0.25)
       // ─────────────────────────────────────────────────────────────
       if (screen1Chars && screen1Chars.length > 0) {
         tl.to(
           screen1Chars,
           {
-            x: -75,
+            x: -40,
             opacity: 0,
-            filter: "blur(12px)",
-            stagger: { amount: 0.03, from: "start" },
+            stagger: { amount: 0.02, from: "start" },
             duration: 0.04,
             ease: "power2.in",
           },
@@ -307,122 +302,105 @@ export default function WorkShowcase() {
       tl.to(
         screen1Ref.current,
         {
-          x: "-20vw",
+          x: "-12vw",
           opacity: 0,
-          duration: 0.05,
+          duration: 0.04,
           ease: "power2.in",
         },
         0.21
       );
 
       // ─────────────────────────────────────────────────────────────
-      // 3. SCREEN 2: "Pure Impact" (ONE BY ONE, BUTTER-SMOOTH)
-      //    (0.26 -> 0.35) + Extended Hold Time (0.35 -> 0.47)
+      // 3. SCREEN 2: "Pure Impact" (FAST & CRISP)
+      //    (0.26 -> 0.35) + Hold Time (0.35 -> 0.47)
       // ─────────────────────────────────────────────────────────────
-      if (cameraViewportRef.current) {
-        tl.fromTo(
-          cameraViewportRef.current,
-          { scale: 1.0 },
-          { scale: 1.02, duration: 0.07, yoyo: true, repeat: 1, ease: "power2.out" },
-          0.26
-        );
-      }
-
-      // Background shapes react with dynamic motion as "Pure Impact" enters
+      // Background shapes subtle gentle drift (no abrupt jump/glitch)
       if (shapeRingRef.current) {
         tl.to(
           shapeRingRef.current,
-          { x: "-80px", y: "60px", rotate: 75, duration: 0.09, ease: "power2.out" },
+          { x: "-20px", y: "15px", duration: 0.08, ease: "power1.out" },
           0.26
         );
       }
       if (shapePillRef.current) {
         tl.to(
           shapePillRef.current,
-          { x: "70px", y: "-40px", rotate: 25, duration: 0.09, ease: "power2.out" },
+          { x: "20px", y: "-10px", duration: 0.08, ease: "power1.out" },
           0.26
         );
       }
       if (shapeDiamondRef.current) {
         tl.to(
           shapeDiamondRef.current,
-          { x: "-50px", y: "-50px", scale: 1.2, duration: 0.09, ease: "power2.out" },
+          { x: "-15px", y: "-15px", duration: 0.08, ease: "power1.out" },
           0.26
         );
       }
 
-      // Word 1: "Pure" slides in butter-smooth from left
+      // Word 1: "Pure" slides in smoothly & quickly
       if (wordPureRef.current) {
         tl.fromTo(
           wordPureRef.current,
           {
-            x: -80,
+            x: -40,
             opacity: 0,
-            filter: "blur(12px)",
           },
           {
             x: 0,
             opacity: 1,
-            filter: "blur(0px)",
-            duration: 0.08,
+            duration: 0.06,
             ease: "power3.out",
           },
           0.26
         );
       }
 
-      // Word 2: "Impact" follows smoothly right after
+      // Word 2: "Impact" follows immediately
       if (wordImpactRef.current) {
         tl.fromTo(
           wordImpactRef.current,
           {
-            x: -60,
+            x: -30,
             opacity: 0,
-            filter: "blur(12px)",
           },
           {
             x: 0,
             opacity: 1,
-            filter: "blur(0px)",
-            duration: 0.08,
+            duration: 0.06,
             ease: "power3.out",
           },
-          0.29
+          0.28
         );
       }
 
-      // Badge: "Portfolio Showcase" emerges with crisp rotation
+      // Badge: "Portfolio Showcase" emerges promptly
       if (badgeShowcaseRef.current) {
         tl.fromTo(
           badgeShowcaseRef.current,
           {
-            scale: 0.7,
+            scale: 0.85,
             opacity: 0,
-            filter: "blur(8px)",
           },
           {
             scale: 1.0,
             opacity: 1,
-            filter: "blur(0px)",
-            duration: 0.06,
+            duration: 0.05,
             ease: "power2.out",
           },
-          0.33
+          0.30
         );
       }
 
       // ─────────────────────────────────────────────────────────────
-      // 4. SCREEN 2 SMOKE EVAPORATION & SHAPES DISSOLVE
+      // 4. SCREEN 2 DISSOLVE & SHAPES FADE
       //    (0.47 -> 0.53)
       // ─────────────────────────────────────────────────────────────
       tl.to(
         screen2Ref.current,
         {
-          y: -110,
-          scale: 0.94,
-          filter: "blur(24px)",
+          y: -60,
           opacity: 0,
-          duration: 0.06,
+          duration: 0.05,
           ease: "power2.in",
         },
         0.47
@@ -722,9 +700,9 @@ export default function WorkShowcase() {
             }}
           />
 
-          {/* LAYER 1: Deep Living Fluid Wave (Rich Aquatic Azure/Sky) */}
+          {/* LAYER 1: Deep Living Fluid Wave (Subtle Background Feel) */}
           <svg
-            className="absolute -bottom-10 -left-20 w-[140%] h-[62%] opacity-65 will-change-transform"
+            className="absolute -bottom-10 -left-20 w-[140%] h-[62%] opacity-25 will-change-transform"
             viewBox="0 0 1440 400"
             fill="none"
             preserveAspectRatio="none"
@@ -736,16 +714,16 @@ export default function WorkShowcase() {
             />
             <defs>
               <linearGradient id="siyamDeepWave" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stopColor="#38BDF8" stopOpacity="0.45" />
-                <stop offset="50%" stopColor="#7DD3FC" stopOpacity="0.30" />
-                <stop offset="100%" stopColor="#BAE6FD" stopOpacity="0.15" />
+                <stop offset="0%" stopColor="#38BDF8" stopOpacity="0.30" />
+                <stop offset="50%" stopColor="#7DD3FC" stopOpacity="0.18" />
+                <stop offset="100%" stopColor="#BAE6FD" stopOpacity="0.08" />
               </linearGradient>
             </defs>
           </svg>
 
           {/* LAYER 2: Foreground Gentle Undulating Wave (Sky/Cyan) */}
           <svg
-            className="absolute -bottom-4 -left-10 w-[135%] h-[50%] opacity-75 will-change-transform"
+            className="absolute -bottom-4 -left-10 w-[135%] h-[50%] opacity-30 will-change-transform"
             viewBox="0 0 1440 400"
             fill="none"
             preserveAspectRatio="none"
@@ -757,16 +735,16 @@ export default function WorkShowcase() {
             />
             <defs>
               <linearGradient id="siyamForeWave" x1="100%" y1="0%" x2="0%" y2="100%">
-                <stop offset="0%" stopColor="#0284C7" stopOpacity="0.32" />
-                <stop offset="60%" stopColor="#38BDF8" stopOpacity="0.22" />
-                <stop offset="100%" stopColor="#E0F2FE" stopOpacity="0.10" />
+                <stop offset="0%" stopColor="#0284C7" stopOpacity="0.20" />
+                <stop offset="60%" stopColor="#38BDF8" stopOpacity="0.14" />
+                <stop offset="100%" stopColor="#E0F2FE" stopOpacity="0.06" />
               </linearGradient>
             </defs>
           </svg>
 
           {/* LAYER 3: Light Surface Crest Ripple (Frosted Caustic Highlights) */}
           <svg
-            className="absolute bottom-0 left-0 w-[130%] h-[34%] opacity-60 will-change-transform"
+            className="absolute bottom-0 left-0 w-[130%] h-[34%] opacity-25 will-change-transform"
             viewBox="0 0 1440 400"
             fill="none"
             preserveAspectRatio="none"
@@ -778,39 +756,39 @@ export default function WorkShowcase() {
             />
             <defs>
               <linearGradient id="siyamCrestWave" x1="0%" y1="0%" x2="100%" y2="0%">
-                <stop offset="0%" stopColor="#BAE6FD" stopOpacity="0.55" />
-                <stop offset="50%" stopColor="#FFFFFF" stopOpacity="0.35" />
-                <stop offset="100%" stopColor="#E0F2FE" stopOpacity="0.45" />
+                <stop offset="0%" stopColor="#BAE6FD" stopOpacity="0.30" />
+                <stop offset="50%" stopColor="#FFFFFF" stopOpacity="0.18" />
+                <stop offset="100%" stopColor="#E0F2FE" stopOpacity="0.22" />
               </linearGradient>
             </defs>
           </svg>
 
-          {/* Parallax Shape 1: Top-Right Frosted Glass Ring (Noticeable & Aesthetic) */}
+          {/* Parallax Shape 1: Top-Right Soft Frosted Glass Ring */}
           <div
             ref={shapeRingRef}
-            className="absolute -top-10 -right-10 w-72 h-72 sm:w-84 sm:h-84 rounded-full border-[2.5px] border-sky-300/70 bg-gradient-to-br from-white/90 via-sky-100/60 to-sky-200/40 backdrop-blur-2xl shadow-[0_25px_60px_rgba(56,189,248,0.25)] will-change-transform"
+            className="absolute -top-10 -right-10 w-72 h-72 sm:w-84 sm:h-84 rounded-full border border-sky-300/30 bg-gradient-to-br from-white/40 via-sky-100/20 to-sky-200/10 backdrop-blur-md shadow-[0_15px_35px_rgba(56,189,248,0.08)] will-change-transform opacity-40 pointer-events-none"
           >
-            <div className="absolute inset-5 rounded-full border border-sky-200/60" />
+            <div className="absolute inset-5 rounded-full border border-sky-200/25" />
           </div>
 
-          {/* Parallax Shape 2: Middle-Left Frosted Pill */}
+          {/* Parallax Shape 2: Middle-Left Soft Frosted Pill */}
           <div
             ref={shapePillRef}
-            className="absolute top-[42%] -left-12 w-64 sm:w-72 h-32 sm:h-36 rounded-full border border-sky-200/90 bg-gradient-to-tr from-sky-200/50 via-white/80 to-cyan-100/40 backdrop-blur-xl shadow-[0_20px_50px_rgba(186,230,253,0.45)] will-change-transform"
+            className="absolute top-[42%] -left-12 w-64 sm:w-72 h-32 sm:h-36 rounded-full border border-sky-200/40 bg-gradient-to-tr from-sky-200/20 via-white/40 to-cyan-100/15 backdrop-blur-md shadow-[0_10px_25px_rgba(186,230,253,0.15)] will-change-transform opacity-40 pointer-events-none"
           >
-            <div className="absolute top-2.5 left-6 right-6 h-[1.5px] bg-gradient-to-r from-transparent via-white/90 to-transparent rounded-full" />
+            <div className="absolute top-2.5 left-6 right-6 h-[1.5px] bg-gradient-to-r from-transparent via-white/50 to-transparent rounded-full" />
           </div>
 
-          {/* Parallax Shape 3: Bottom-Right Floating Glass Diamond */}
+          {/* Parallax Shape 3: Bottom-Right Soft Floating Glass Diamond */}
           <div
             ref={shapeDiamondRef}
-            className="absolute bottom-20 right-14 w-32 h-32 sm:w-36 sm:h-36 rounded-3xl border border-sky-200/90 bg-gradient-to-bl from-white/90 via-cyan-100/50 to-sky-100/35 backdrop-blur-xl shadow-[0_15px_40px_rgba(14,165,233,0.20)] rotate-12 will-change-transform"
+            className="absolute bottom-20 right-14 w-32 h-32 sm:w-36 sm:h-36 rounded-3xl border border-sky-200/40 bg-gradient-to-bl from-white/40 via-cyan-100/20 to-sky-100/10 backdrop-blur-md shadow-[0_10px_25px_rgba(14,165,233,0.08)] rotate-12 will-change-transform opacity-40 pointer-events-none"
           />
 
           {/* Parallax Shape 4: Center Soft Luminous Snow-Blue Orb */}
           <div
             ref={shapeOrbRef}
-            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[750px] h-[520px] rounded-full bg-gradient-to-tr from-sky-200/35 via-cyan-100/25 to-transparent blur-[130px] will-change-transform"
+            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[750px] h-[520px] rounded-full bg-gradient-to-tr from-sky-200/20 via-cyan-100/15 to-transparent blur-[140px] will-change-transform opacity-50 pointer-events-none"
           />
         </div>
 
@@ -989,14 +967,6 @@ export default function WorkShowcase() {
               </div>
 
               {/* Living Canvas Floating Technical Chips */}
-              <div className="absolute bottom-6 left-8 pointer-events-none hidden md:flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/70 border border-slate-200/80 backdrop-blur-sm text-[10px] font-mono text-slate-500 shadow-sm z-10">
-                <span className="w-1.5 h-1.5 rounded-full bg-sky-500 animate-ping" />
-                <span>LAT 23.8103° N • LNG 90.4125° E</span>
-              </div>
-              <div className="absolute bottom-6 right-8 pointer-events-none hidden md:flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/70 border border-slate-200/80 backdrop-blur-sm text-[10px] font-mono text-slate-500 shadow-sm z-10">
-                <span>ENGINE: GSAP 3D CYLINDER</span>
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
-              </div>
 
               {/* Studio Top Bar with Card Index & Interactive Prev / Next Arrows */}
               <div className="relative z-30 w-full flex items-center justify-between px-6 sm:px-12 pt-6 sm:pt-7 pointer-events-auto">
@@ -1004,9 +974,6 @@ export default function WorkShowcase() {
                   <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" />
                   <span className="text-xs font-mono font-semibold tracking-wider text-slate-700 uppercase">
                     Verified Works ({projects.length})
-                  </span>
-                  <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-slate-200/80 text-slate-600 font-semibold hidden sm:inline">
-                    3D Perspective Cylinder
                   </span>
                 </div>
 
@@ -1052,28 +1019,6 @@ export default function WorkShowcase() {
                 }}
               >
                 {/* 3D Depth Backdrop Chips (giving rich spatial depth behind the cylinder cards) */}
-                <div
-                  className="absolute top-1/4 left-[14%] -translate-x-1/2 pointer-events-none hidden xl:block opacity-40 select-none"
-                  style={{
-                    transform: "translateZ(-300px) rotateY(18deg)",
-                    transformStyle: "preserve-3d",
-                  }}
-                >
-                  <div className="px-3.5 py-1.5 rounded-full bg-white/85 border border-sky-200/80 backdrop-blur-md text-[11px] font-mono font-semibold text-sky-700 shadow-sm">
-                    ARCH // 04_DELIVERABLES
-                  </div>
-                </div>
-                <div
-                  className="absolute bottom-1/4 right-[14%] translate-x-1/2 pointer-events-none hidden xl:block opacity-40 select-none"
-                  style={{
-                    transform: "translateZ(-320px) rotateY(-18deg)",
-                    transformStyle: "preserve-3d",
-                  }}
-                >
-                  <div className="px-3.5 py-1.5 rounded-full bg-white/85 border border-sky-200/80 backdrop-blur-md text-[11px] font-mono font-semibold text-sky-700 shadow-sm">
-                    STATUS // VERIFIED_LIVE
-                  </div>
-                </div>
                 {projects.map((project, idx) => {
                   const isCurrentActive = activeProjectIdx === idx;
                   return (
